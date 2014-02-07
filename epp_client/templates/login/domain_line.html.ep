@@ -1,0 +1,43 @@
+% my $sec = date2sec($list->{'exDate'});
+% my @dat = localtime(date2sec($list->{'exDate'}));
+% my ($width, $widthl, $color);
+% if ((732 - ($dat[7] * 2)) >= 62) {
+%	$width = 62;
+% } else {
+%	$width = (732 - ($dat[7] * 2));
+%	$widthl = 62 - $width;
+% }
+% if ($$current[5] < $dat[5]) {
+%	$color ='#fdc5c5';
+% } elsif ($$current[7] < $dat[7]) {
+%	$color ='#fdc5c5';
+% } else {
+%#	$color ='#fdc5c5';
+%	$color ='#ffffff';
+% }
+
+<div id="line_<%= $count %>">
+<div class="domain">
+<input type="hidden" name="ending_<%= $count %>" id="ending_<%= $count %>" value="<%= $sec %>">
+<a href="#modalopen" onclick="javascript:open_frame('/ns?name=<%= $list->{'name'} %>');"><%= $list->{'name'} %></a>
+</div>
+<div class="renew"><a href="/renew"><img src="/img/renew.png" width="20" height="20" /></a></div>
+<div class="dns">
+<a href="#modalopen" onclick="javascript:open_frame('/whois?domain=<%= $list->{'name'} %>');">whois</a>
+</div>
+<div class="key"><a href="#modalopen" onclick="javascript:open_frame('/getauth?name=<%= $list->{'name'} %>');"><img src="/img/key.png" width="20" height="20" /></a></div>
+<div class="gant">
+% if ($$current[5] > $dat[5]) {
+  <div id='chartout' style="border: 1px solid <%= $color %>;width:<%= ($dat[7]*2+$width); %>px;"> <a href="#" class="tooltip">
+   <div id='chartin' style="width:<%= $width %>px;"><span>Окончание&nbsp;<strong><%= sec2date($sec, '.'); %></strong></span></div>
+% }
+% else {
+  <div id='chartout' style="border: 1px solid <%= $color %>;width:732px;"> <a href="#" class="tooltip">
+   <div id='chartin' style="width:<%= $width %>px; margin-right:<%= (732-($dat[7]*2+$width)); %>px;"><span>Окончание&nbsp;<strong><%= sec2date($sec, '.'); %></strong></span></div>
+% }
+% if ($widthl) {
+   <div id='chartinl' style="width:<%= $widthl %>px;"><span>Окончание&nbsp;<strong><%= sec2date($sec, '.'); %></strong></span></div>
+% }
+  </div>
+</div>
+</div>

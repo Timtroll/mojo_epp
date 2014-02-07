@@ -1,0 +1,17 @@
+% layout 'users';
+% title 'Main page';
+% use Subs;
+% my @date = localtime(time());
+
+%= include 'login/path_balance', path => $path, balance => $balance;
+
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td height="40" valign="BOTTOM">У вас пока нет зарегистрированных доменов.</td>
+  </tr>
+% unless ($balance) {
+  <tr>
+    <td>У вас на балансе недостаточно средств, чтобы регистрировать домены. <a href="/pay">Пополнить баланс</a></td>
+  </tr>
+% }
+</table>

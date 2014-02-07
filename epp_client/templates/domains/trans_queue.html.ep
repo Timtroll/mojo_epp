@@ -1,0 +1,68 @@
+% layout 'frame';
+% title 'Transfer';
+
+<table width="100%" border="0" cellspacing="5" cellpadding="5">
+  <tr>
+    <td align="CENTER" valign="middle">Трансфер домена <strong><%= $$fields{'domain'} %></strong> на обслуживание к регистратору <strong>milion.kiev.ua</strong></td>
+  </tr>
+  <tr>
+    <td width="30%" align="left" valign="middle" class="text"><p>Вы желаете перенести домен <strong><%= $$fields{'domain'} %></strong> на обслуживание к регистратору <strong>milion.kiev.ua</strong></p>
+      <ul>
+% if ($admin) {
+        <li> Текущий администратор домена: <strong><%= $admin %></strong>.</li>
+% }
+% if ($reg) {
+        <li> Текущий регистратор домена: <strong><%= $reg %></strong>.</li>
+ % }
+       <li>Стоимость трансфера домена в зоне <strong>.<%= $zone %></strong> составляет <strong><%= $price %></strong> <strong>грн</strong>. (продление домена на 1 год).<br />
+         <br />
+       </li>
+      </ul><form action="/trans_to_queue" id="menu_form" method="post">
+      <table width="100%" border="0" cellspacing="2" cellpadding="2">
+        <tr>
+          <td width="38%">Введите <strong>AuthInfo</strong>:</td>
+          <td><input type="text" name="authinfo" size="32" tabindex="1" id="authinfo" class="wdth" placeholder="Получить AuthInfo Вы можете у текущего регистратора домена" onkeyup="CheckTranferFieldsAuth();" value="<%= $$fields{'authinfo'} %>" /></td>
+        </tr>
+      </table>
+      <table width="100%" border="0" cellspacing="2" cellpadding="2">
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td id="textacceptown" height="30" valign="MIDDLE">
+        <input type="checkbox" name="acceptdog" id="acceptdog" value="1" onChange="CheckTranferFieldsAuth();"
+% if ($$fields{'acceptdog'}) { 
+ selected="selected"
+% }
+>        Да, я владелец домена <strong><%= $$fields{'domain'} %></strong> и хочу перенести его на обслуживание в систему <strong>milion.kiev.ua</strong></td>
+              </tr>
+          </table></td>
+        </tr>
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="70%" id="textacceptdog">
+        <input type="checkbox" name="acceptown" id="acceptown" value="1" onChange="CheckTranferFieldsAuth();"
+% if ($$fields{'acceptown'}) { 
+ selected="selected"
+% }
+>
+        Да, я прочитал и принимаю условия <a href="/dog.html" target="_blank">Договора</a></td>
+                <td align="RIGHT" style="padding-right:20px;"><input type="hidden" name="price" value="<%= $price %>"><input type="hidden" name="domain" value="<%= $$fields{'domain'} %>"><input type="submit" name="singup" id="singup" value="Выполнить трансфер" disabled="disabled"></td>
+              </tr>
+          </table></td>
+        </tr>
+      </table>
+      </form>
+      
+      
+      <br>
+<br>
+<p>После нажатия на кнопку &quot;Выполнить трансфер&quot;  стоимость трансфера будет списана с Вашего баланса в системе milion.kiev.ua</p>
+      <p><strong style="color:red;">Для завершения трансфера необходимо подтверждение от текущего регистранта домена. Email регистранта этого домена не доступен для публичного просмотра.</strong></p>
+      <p> Для заказа трансфера попросите текущего регистратора изменить поле admin на Ваш <strong>CUNIC</strong> в системе <strong>milion.kiev.ua</strong></p>
+
+      <p>Перед тем, инициировать трансфер, обязательно предупредите текущего регистратора домена о намерении перевести домен на обслуживание к регистратору milion.kiev.ua (ua.milion). Обязательным условием удачного трансефера является снятие блокировки на перевод домена. Пример заявления для <em>физического лица</em> и для <em>юридического лица</em>.</p>
+      <p>Перенос домена в зоне <strong>.kiev.ua</strong> между регистраторами выполняется с указанием <strong>AuthInfo</strong>. Получить <strong>AuthInfo</strong> Вы можете у текущего регистратора домена.</p>
+    <p>Регистраторы его называют по-разному:<em> Auth Code, пароль AuthInfo, пароль трансфера </em>или<em> код трансфера</em>.</p></td>
+  </tr>
+</table>

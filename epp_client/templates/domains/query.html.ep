@@ -1,0 +1,43 @@
+% layout 'users';
+% title 'Query domains';
+
+<script language="JavaScript" type="text/javascript" src="/js/loader.js"></script>
+
+<span id="error_message">
+% if ($mess) {
+%# = $mess;
+% }
+</span>
+<br>
+% my $cnt = 1;
+% my @popular;
+% my @other;
+% foreach my $dom (sort {$$popularzones{$b} <=> $$popularzones{$a}} keys %{$popularzones}) {
+<div style="line-height:24px;padding-top:4px;" id="mzone_<%= $cnt %>">
+	<span id="zone_<%= $cnt %>"></span>
+</div>
+	% push @popular, '"'.$dom.'"';
+% $cnt++; }
+
+<hr>
+<div style="line-height:24px;">
+	<a href="#" onclick="javascript:Show('other');checkDomain('ozone_', other, 'query_domain');">Показать еще</a>
+</div>
+<hr>
+<div class="hide" id="other">
+% $cnt = 1;
+% foreach my $dom (sort {$a cmp $b} keys %{$dat}) {
+<div style="line-height:24px;padding-top:12px;">
+	<span id="ozone_<%= $cnt %>"></span>
+	% push @other, '"'.$dom.'"';
+</div>
+% $cnt++; }
+</div>
+<script language="JavaScript" type="text/javascript">
+% $cnt = join(',', @popular);
+var popular = new Array(<%== $cnt %>);
+% $cnt = join(',', @other);
+var other = new Array(<%== $cnt %>);
+checkDomain('zone_', popular, 'query_domain');
+DelCookie('error');
+</script>

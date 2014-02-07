@@ -1,0 +1,57 @@
+% my $total = 0;
+% my $cnt = 0;
+% my $color = ' bgcolor="#f5f5f5"';
+<br>
+<div id="newdomains">
+% if (scalar(keys %{$newdomains})) {
+<form action="/reg" id="dns_form" method="post">
+%	foreach (keys %{$newdomains}) {
+	<table width="60%" border="0" cellpadding="4" cellspacing="4" align="center" id="cart_<%= $cnt %>">
+		<tr<%== $color %>>
+			<td><%= $_ %></td>
+			<td width="50"><a href="#modalopen" onclick="javascript:open_frame('/reg?name=<%= $_ %>&number=<%= $cnt %>');removeDomain(<%= $cnt %>, '<%= $_ %>');">Reg</a></td>
+			<td width="70" align="right"><input type="hidden" id="price_<%= $cnt %>" value="<%= $$newdomains{$_} %>"><%= $$newdomains{$_} %></td>
+			<td width="50" align="right" style="cursor: pointer; cursor: hand;" onclick="javascript:removeDomain(<%= $cnt %>, '<%= $_ %>');">X</td>
+		</tr>
+%		$total = $total + $$newdomains{$_};
+%		$cnt++;
+%		unless ($color) { $color = ' bgcolor="#f5f5f5"'; } else { $color = ''; }
+%	}
+	</table>
+	<table width="60%" border="0" cellpadding="4" cellspacing="4" align="center" >
+		<tr>
+			<td colspan="3" style="border-top: solid 1px #cccccc;"></td>
+		</tr>
+		<tr>
+			<td>ИТОГО:</td>
+			<td width="70" align="right"><b><span id="totalprice"><%= $total %></span></b><input type="hidden" id="totalp" value="<%= $total %>"></td>
+			<td width="50">грн</td>
+		</tr>
+		<tr>
+			<td>
+%	$total = int(($balance - $total)*100)/100;
+%	if ($total < 0) {
+У Вас отрицательный баланс</td><td width="70" align="right"><span id="diffprice" class="red">
+%=		$total;
+%	} else {
+У вас останется</td><td width="70" align="right"><span id="diffprice">
+%=		$total;
+%	}
+</span><input type="hidden" id="diffp" value="<%= $total %>"></td>
+			<td>грн</td>
+		</tr>
+	</table>
+	<input type="hidden" id="balance" value="<%= $balance %>">
+	<table width="100%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td align="CENTER">
+    <input type="submit" name="pay" value="Зарегистрировать все домены"  />
+%	if ($total < 0) {
+ <a href="/pay" id="addpay">Пополнить баланс</a>
+%	}
+    </td>
+  </tr>
+</table>
+</form>
+% }
+</div>

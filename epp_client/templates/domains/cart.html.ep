@@ -1,0 +1,6 @@
+% layout 'users';
+% title 'Main page';
+
+%= include 'login/path_balance', path => $path, balance => $balance;
+
+%= include 'fin/cart', newdomains => $newdomains, balance => $balance;

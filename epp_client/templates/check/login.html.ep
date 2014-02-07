@@ -1,0 +1,20 @@
+% layout 'default';
+% title 'Login page';
+<table width="100%" border="0" cellpadding="13" cellspacing="3">
+  <tr>
+    <td width="50%" valign="top"><div class="blck ui-corner-all">
+	<form action="/login" method="POST">
+	<span id="error_message">
+	% if ($mess) {
+	%= $mess;
+	% }
+	</span>
+	<p>логин
+    	<input type="text" name="username" size="20" value="" tabindex="1" id="username" class="wdth" placeholder="Свой логин писать здесь"/>
+		<br>пароль
+		<input type="password" name="password" size="20" value="" id="password" class="wdth" placeholder="Тут вводится пароль"/>
+		<br>
+		<button id="login">Войти</button>
+	</p></form></div></td>
+  </tr>
+</table>

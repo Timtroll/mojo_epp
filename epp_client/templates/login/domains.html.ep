@@ -1,0 +1,133 @@
+% layout 'users';
+% title 'Main page';
+% use Subs;
+% my @date = localtime(time());
+
+%= include 'login/path_balance', path => $path, balance => $balance;
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><table width="100%" border="0" cellspacing="0" cellpadding="0" height="40">
+                <tr>
+                  <td valign="bottom">
+		  <table width="100%" border="0" cellspacing="0" cellpadding="0" height="30">
+		    <tr>
+% my $cnt = "domain-menua";
+% if (scalar(keys %{$newdomains})) {
+		      <td id="ext_5" class="domain-menua" onclick="javascript:New(); SwitchExt(this);">Новые</td>
+%	$cnt = "domain-menu";
+% }
+		      <td id="ext_1" class="<%= $cnt %>" onclick="javascript:notExtend('<%= time(); %>'); SwitchExt(this);">Непродленные</td>
+		      <td id="ext_2" class="domain-menu" onclick="javascript:Extend('<%= ($date[5]+1900) %>'); SwitchExt(this);">Продлеваем в <%= ($date[5]+1900) %> году</td>
+		      <td id="ext_3" class="domain-menu" onclick="javascript:Extend('<%= ($date[5]+1901) %>'); SwitchExt(this);">Продлеваем в <%= ($date[5]+1901) %> году</td>
+		      <td id="ext_4" class="domain-menu" onclick="javascript:allDomains(); SwitchExt(this);">Все домены</td>
+		    </tr>
+		  </table>
+                  </td>
+                  <td align="right" width="20%" valign="bottom" style="color: #FF6600; padding-bottom:7px;">Сегодня <%= sec2date(time(), '.'); %></td>
+                </tr>
+            </table></td>
+          </tr>
+          <tr>
+            <td id="curday" class="content" style="background-position: <%= ($date[7]*2 +273); %>px;">
+             <div id="months">
+              <div class="domain"></div>
+              <div class="dns"></div>
+              <div class="renew"></div>
+              <div class="key"></div>
+% my %mnth = ( 12 => "Дек", 11 => "Ноя", 10 => "Окт", 9 => "Сент", 8 => "Авг", 7 => "Июль", 6 => "Июнь", 5 => "Май", 4 => "Апр", 3 => "Марn", 2 => "Фев", 1 => "Янв");
+% $cnt = 12;
+% for (my $count = 0; $count < scalar(keys %mnth); $count++) {
+%	if ($cnt == ($date[4]+1)) {
+              <div class="montha"><%= $mnth{$cnt} %></div>
+%	} else {
+              <div class="month"><%= $mnth{$cnt} %></div>
+%	}
+%	$cnt--;
+% }
+              </div>
+
+% if (scalar(keys %{$newdomains})) {
+%=	include 'fin/cart', newdomains => $newdomains, balance => $balance;
+% }
+
+% $cnt = 1;
+% foreach my $line (@{$list}) {
+%= include 'login/domain_line', list => $line, current => \@date, count => $cnt;
+%	$cnt++;
+% }
+</td>
+          </tr>
+        </table>
+<script language="JavaScript" type="text/javascript">
+%# Create time for time current date + 30 day
+notExtend('<%= time(); %>');
+function notExtend(tm) {
+	window.document.getElementById('curday').className = 'content';
+	for (var i = 1; i <= <%= scalar(@{$list}) %>; i++) {
+		if (window.document.getElementById('ending_'+i)) {
+			var end = window.document.getElementById('ending_'+i).value;
+			if (end < (tm-31*24*60*60)) {
+				Hide('line_'+i);
+			}
+			else if (end > (tm+31*24*60*60)) {
+				Hide('line_'+i);
+			}
+			else {
+				Show('line_'+i);
+			}
+		}
+	}
+	Show('months');
+	if (window.document.getElementById('newdomains')) {
+		Hide('newdomains');
+	}
+}
+function Extend(year) {
+	window.document.getElementById('curday').className = 'content';
+	var start = Date.parse("Jan 1, "+year);
+	var end = Date.parse("Dec 31, "+year);
+//alert(start+'\r'+end);
+	for (var i = 1; i <= <%= scalar(@{$list}) %>; i++) {
+		var end = window.document.getElementById('ending_'+i).value;
+//alert((Date.parse("Jan 1, "+year)/1000)+'\r'+end+'\r'+(Date.parse("Dec 31, "+year)));
+		if ((end > (Date.parse("Jan 1, "+year)/1000))&&(end < (Date.parse("Dec 31, "+year)/1000))) {
+			Show('line_'+i);
+		}
+		else {
+			Hide('line_'+i);
+		}
+	}
+	Show('months');
+	Hide('newdomains');
+}
+function allDomains() {
+	window.document.getElementById('curday').className = 'content';
+	for (var i = 1; i <= <%= scalar(@{$list}) %>; i++) {
+		Show('line_'+i);
+	}
+	Show('months');
+	Hide('newdomains');
+}
+function New() {
+	for (var i = 1; i <= <%= scalar(@{$list}) %>; i++) {
+		Hide('line_'+i);
+	}
+	Hide('months');
+	Show('newdomains');
+	window.document.getElementById('curday').className = '';
+}
+function SwitchExt(object) {
+% if (scalar(keys %{$newdomains})) {
+	for (var i = 1; i <= 5; i++) {
+% } else {
+	for (var i = 1; i <= 4; i++) {
+% }
+		window.document.getElementById('ext_'+i).className = 'domain-menu';
+	}
+	object.className = 'domain-menua';
+}
+% if (scalar(keys %{$newdomains})) {
+New();
+% }
+</script>

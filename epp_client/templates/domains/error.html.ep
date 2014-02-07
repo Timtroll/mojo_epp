@@ -1,0 +1,7 @@
+% layout 'frame';
+% title 'Error page';
+
+
+  <tr>
+    <td align="center" valign="middle" style="color:#ff0000;"><%== $mess %></td>
+  </tr>

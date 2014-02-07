@@ -1,0 +1,51 @@
+<style>
+html,body{
+	height:100%;
+	margin:0px;
+	padding:0px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+</style>
+<table width="100%" border="0" cellspacing="2" cellpadding="2" 
+% if ($name && $number) {
+id='d<%= $name %><%= $number %>'
+% }
+>
+	<tr>
+		<td width="30%" align="left" valign="middle">
+% if ($domain) {
+%=	$domain;
+% } else {
+пустышка
+% }
+</td>
+		<td width="10%" align="left" valign="middle">
+% if ($domain) {
+%	if ($result) {
+Занят
+%	} else {
+Свободен
+% } }
+		</td>
+		<td width="15%" align="center" valign="middle">
+% if ($domain && $zone) {
+%	if (scalar(keys %{$price})) {
+<%= $$price{$zone}%> грн/год 
+%	}
+% }
+</td>
+		<td width="45%" valign="middle" 
+% if ($domain) {
+%	unless ($result) {
+align="right"><a href="#" onclick="javascript:StoreDomain('<%= $domain %>');Hide('m<%= $name%><%= $number %>')">Зарегистрировать</a>
+%	} else {
+align="left"><a href="#modalopen" onclick="javascript:open_frame('/whois?domain=<%= $domain %>');">[whois]</a> <a href="#modalopen">Transfer</a></td>
+% } }
+		<td width="50" align="right" valign="middle">
+% if ($name && $number) {
+<a href="#" onclick="javacript:removeDomain('d<%= $name%><%= $number %>', '<%= $domain %>');">X</a>
+% }
+		</td>
+	</tr>
+</table>

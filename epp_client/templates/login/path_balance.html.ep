@@ -1,0 +1,19 @@
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+	<tr>
+	<td>/ <%= $path %></td>
+% if ($self->session->{'hold'}) {
+%	my $hold = sprintf("%.2f", $self->session->{'hold'});
+	<td width="20%" align="right" class="reserv">Резерв: 
+	<strong><%= $hold%></strong> грн 
+	</td>
+% }
+	<td width="20%" align="right">Доступно: 
+% my $balanc = sprintf("%.2f", $self->session->{'balance'});
+% if ($balanc) {
+<strong><%= $balanc%></strong> грн
+% } else {
+	<strong>0.00</strong> грн 
+% }
+	</td>
+ 	</tr>
+</table>

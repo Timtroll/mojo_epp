@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Регистрация нового пользователя в системе регистрации доменов Million</title>
+<script language="JavaScript" type="text/javascript" src='/js/country.js'></script>
+<script language="JavaScript" type="text/javascript" src='/js/cookie.js'></script>
+<script language="JavaScript" type="text/javascript" src="/js/show_hide_switch.js"></script>
+<link href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<table width="1005" height="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="58"><table width="100%" height="58" border="0" cellpadding="2" cellspacing="2">
+        <tr>
+          <td width="40" align="left" valign="middle"><div class="header">
+              <div class="pref" onclick="javascript:void(0);" tabindex="1">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+              </div>
+              <div class="smenu">
+                <form action="/" id="menu_form" method="post">
+                  <li><a href="/" onclick="javascript:DelCookie('error');">Главная</a></li>
+                  <li><a href="/price.html" onclick="javascript:DelCookie('error');">Цены на домены</a></li>
+                  <li><a href="/news.html" onclick="javascript:DelCookie('error');">Новости</a></li>
+                  <li><a href="/dog.html" onclick="javascript:DelCookie('error');">Соглашение</a></li>
+                  <li><a href="/contact.html" onclick="javascript:DelCookie('error');">Контакты</a></li>
+                  <hr />
+                  <li><a href="/add.html" onclick="javascript:DelCookie('error');">Регистрация</a></li>
+                  <li><a href="/add2.html" onclick="javascript:DelCookie('error');">Подтвердить регистрацию</a></li>
+                  <li><a href="/login.html" onclick="javascript:DelCookie('error');">Вход</a></li>
+                </form>
+              </div>
+            </div></td>
+          <td valign="middle">&nbsp;</td>
+          <td width="32" align="center" valign="middle"><div style="display: table-cell;vertical-align: middle;">
+              <div class="cart" onclick="javascript:void(0);" tabindex="1">
+                <div id="domains-storage" style="width:24px;height:24px;color:#ff0000;">
+                  <div class="domains-storage"></div>
+                  <div id="domain-num" style="position:absolute;width: 20px;text-align:center;height: 14px;padding-top: 2px;padding-left: 2px;"></div>
+                </div>
+              </div>
+              <div class="cartmenu">
+                <form action="/cart" id="menu_form" method="post">
+                  <span id="cartmenu"></span>
+                  <div id="regbutton">
+                    <input type="submit" name="regdomain" value="Зарегистрировать">
+                  </div>
+                </form>
+              </div>
+            </div></td>
+          <td width="40" align="right" valign="middle"><img src="img/login.png" width="24" height="24" /></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
+        <tr>
+          <td><table width="100%" height="120" border="0" cellpadding="9" cellspacing="9">
+              <tr>
+                <td align="center" valign="middle" bgcolor="#f5f5f5" id="step_1"><em><strong>Шаг 1</strong> - <a href="/add.html">Регистрация</a> </em></td>
+                <td align="center" valign="middle" id="step_2" onclick="javascript:window.location.href='/add2.html';" style="cursor:pointer;cursor:hand;"s><em><strong>Шаг 2</strong> - <a href="/add2.html">Подтвердить регистрацию</a> </em></td>
+                <td align="center" valign="middle" id="step_3" onclick="javascript:window.location.href='/add3.html';" style="cursor:pointer;cursor:hand;"><em><strong>Шаг 3</strong> - Войти в систему и пополнить баланс </em></td>
+              </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="2" cellpadding="2">
+              <tr>
+                <td align="center"><span id="error" name="error" style="color:#FF0000;"></span></td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td valign="top"><form action="/singup" id="reg_form" method="post">
+              <table width="100%" border="0" cellspacing="0" cellpadding="4">
+                <tr>
+                  <td><table width="27%" border="0" align="left" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td><table width="100%" border="0" cellpadding="2" cellspacing="2" style="float:left;">
+                            <tr>
+                              <td width="30%" height="38">Login</td>
+                              <td height="38" style="padding-right:20px;"><input name="login" type="text" class="wdth" id="login" onkeyup="checkLogin(this);CheckFields()" maxlength="16" placeholder="Введите свой логин" /></td>
+                            </tr>
+                            <tr>
+                              <td width="30%">Password</td>
+                              <td style="padding-right:20px;"><input name="pass" type="password" class="wdth" id="pass" onkeyup="checkLogin(this);CheckFields()" maxlength="32" placeholder="Введите новый пароль"/></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="prop">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td><em>Скидка</em></td>
+                              <td><span id="discont"><em><strong>0</strong> %</em></span></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td class="small">Чем больше доменов у вас в аккаунте, тем большую скидку Вы получаете. Скидка рассчитывается автоматическию </td>
+                      </tr>
+                      <tr>
+                        <td><table width="100%" border="0" cellpadding="2" cellspacing="2" bgcolor="#f2f2f2" style="margin-top:30px;">
+                            <tr>
+                              <td bgcolor="#333333"><span style="color:#FFFFFF">Вы собираетесь зарегистрировать:</span></td>
+                            </tr>
+                            <tr>
+                              <td id="order"></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                    </table>
+                    <table width="67%" border="0" align="right" cellpadding="2" cellspacing="2">
+                      <tr>
+                        <td class="callout">Страна:</td>
+                        <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td width="6%"><input class="wdth" name="cc" id="cc" value="UA" type="text" size="4" maxlength="2" onkeyup="javascript:chkChar(this);Country();CheckFields();"/></td>
+                              <td width="30">&nbsp;</td>
+                              <td><div id="countr_none">Латинская аббревиатура (например RU)</div>
+                                <div id="country" class="country"></div></td>
+                            </tr>
+                          </table>
+                          <div class="country-none" id="countr_list"></div></td>
+                      </tr>
+                      <tr>
+                        <td class="callout">ФИО:</td>
+                        <td><input name="name" type="text" class="wdth" id="name" onkeyup="CheckFields()" maxlength="256" placeholder="Введите ваши ФИО" /></td>
+                      </tr>
+                      <tr>
+                        <td class="callout">&nbsp;</td>
+                        <td>&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td class="callout">Email:</td>
+                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="40%"><input name="email" type="text" class="wdth" id="email" onkeyup="CheckFields()" maxlength="64" placeholder="Работающий e-mail" /></td>
+                              <td width="80" align="right" style="padding-right:10px;">Фирма:</td>
+                              <td><input name="org" type="text" class="wdth" maxlength="64" /></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td class="callout">Телефон:</td>
+                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="40%"><input name="voice" type="text" class="wdth" id="voice" onkeyup="CheckFields()" maxlength="10" placeholder="Номер телефона" /></td>
+                              <td width="80" align="right" style="padding-right:10px;"><span class="callout">Факс:</span></td>
+                              <td><input name="fax" type="text" class="wdth" maxlength="10" /></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td class="callout">&nbsp;</td>
+                        <td>&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td class="callout">&nbsp;</td>
+                        <td>&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td class="callout">Почтовый индекс:</td>
+                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="45" align="right"><input id="pc" name="pc" type="text" class="wdth" maxlength="6" placeholder="индекс" onkeyup="CheckFields()" /></td>
+                              <td width="155" align="right" style="padding-right:10px;">Область:</td>
+                              <td><input name="sp" type="text" class="wdth" maxlength="32" /></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td width="22%" class="callout">Город:</td>
+                        <td width="78	%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="120"><input name="city" type="text" class="wdth" id="city" onkeyup="CheckFields()" maxlength="32" placeholder="Введите город" /></td>
+                              <td width="80" align="right" style="padding-right:10px;">Улица:</td>
+                              <td><input name="street" type="text" class="wdth" id="street" onkeyup="CheckFields()" maxlength="64" placeholder="Введите улицу + дом + № квартиры"/></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td class="callout">&nbsp;</td>
+                        <td>* Обязательные для заполнения поля имеют подсказки </td>
+                      </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                  <td><table width="65%" border="0" align="right" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td><table width="100%" border="0" cellspacing="3" cellpadding="3" align="left" style="padding-top:8px;">
+                            <tr>
+                              <td class='command-list' align="center"><input type="submit" id="singup" name="singup" onclick="javascript:DelCookie('error');" value="Зарегистрироваться" />
+                                <a href="login.html" onclick="javascript:DelCookie('error');">Я уже зарегистрирован</a></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                    </table></td>
+                </tr>
+              </table>
+            </form></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="20" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
+        <tr>
+          <td align="center"><a href="/">Главная</a></td>
+          <td align="center"><a href="/add.html">Регистрация</a></td>
+          <td align="center"><a href="/add2.html">Подтвердить регистрацию</a></td>
+          <td align="center"><a href="/price.html">Цены на домены</a></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<script language="JavaScript" type="text/javascript">
+buildOrder();
+ShowDomains();
+CheckFields();
+SetError();
+ShowDomains();
+DelCookie('error');
+</script>
+</body>
+</html>

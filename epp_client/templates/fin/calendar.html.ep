@@ -1,0 +1,19 @@
+<div>
+% my $cur = '';
+% my @now = localtime(time());
+% my $one = $months->{'max'}/87;
+% map {
+%	if ($_ == ($now[4]+1)) { $cur = 'h'; }
+%	else { $cur = ''; }
+%	my $graph = 1;
+%	if ($one) {
+%		$graph = 100 - int($months->{$_}->{'bal'}/$one);
+%	}
+	<div class="mnth">
+	<div class="helper">
+	<div class="wite" style="height:<%= $graph %>%;"><%= int($months->{$_}->{'bal'}) %> грн</div>
+	</div>
+	<div class="child<%= $cur %>"><%= $months->{$_}->{'month'}%></div>
+	</div>
+% } (1..12);
+</div>

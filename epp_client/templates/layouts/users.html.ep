@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><%= title %></title>
+<link href="/css/style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript" type="text/javascript" src="/js/show_hide_switch.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/cookie.js"></script>
+</head>
+<body>
+<table width="1005" height="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="58"><table width="100%" height="58" border="0" cellpadding="2" cellspacing="2">
+        <tr>
+          <td width="40" align="left" valign="MIDDLE"><div>
+              <div class="pref" onclick="javascript:void(0);" tabindex="1">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+              </div>
+              <div class="smenu">
+                <form action="" id="menu_form" method="post">
+                  <li><a href="/main">Главная</a></li>
+                  <hr>
+                  <li><a href="/pay">Пополнить баланс</a></li>
+                  <li><a href="/history">История платежей</a></li>
+                  <li><a href="/contact">Контакты</a></li>
+                  <li><a href="/price">Цены на домены</a></li>
+                  <li><a href="/dog">Сообщения</a></li>
+                  <hr>
+                  <li><a href="/pref">Настройки</a></li>
+                  <hr>
+                  <li><a href="/logout">Выйти</a></li>
+                </form>
+              </div>
+          </div></td>
+          <td width="30" align="center" valign="MIDDLE"><a href="/pay">Pay</a></td>
+          <td valign="MIDDLE"><form action="/query" id="menu_form" method="post">
+              <table width="100%" border="0" cellspacing="2" cellpadding="2">
+                <tr>
+                  <td width="200" align="center" valign="middle">Домен</td>
+                  <td align="center" valign="middle"><input id="domain" name="domain" type="text" class="wdth" value="<%= $domain %>" placeholder="Введите имя домена без WWW и без доменной зоны" onkeyup="checkChar(this)"/>                  </td>
+                  <td width="200" align="center" valign="middle"><input type="submit" id="sub" name="sub" value="Проверить"/></td>
+                </tr>
+              </table>
+          </form></td>
+          <td width="32" align="center" valign="MIDDLE"><div style="display: table-cell;vertical-align: middle;">
+              <div class="cart" onclick="javascript:void(0);" tabindex="1">
+                <div id="domains-storage" style="width:24px;height:24px;color:#ff0000;"><div class="domains-storage"></div><div id="domain-num" style="position:absolute;width: 20px;text-align:center;height: 14px;padding-top: 2px;padding-left: 2px;"></div></div>
+              </div>
+              <div class="cartmenu">
+                <form action="/cart" id="menu_form" method="post">
+                  <span id="cartmenu"></span>
+                  <div id="regbutton">
+                    <input type="submit" name="regdomain" value="Зарегистрировать">
+                  </div>
+                </form>
+              </div>
+          </div></td>
+          <td width="38" align="center" valign="MIDDLE"><a href="/mail"><img src="/img/mail_ru.png" width="24" height="24" /></a></td>
+          <td width="30" align="center" valign="MIDDLE"><a href="/pref"><img src="/img/pref.png" width="24" height="24" /></a></td>
+          <td width="40" align="right" valign="MIDDLE"><a href="/logout"><img src="/img/logout.png" width="24" height="24" /></a></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+    <span id="error" style="color:#ff0000;"></span>
+    <%= content %>
+    </td>
+  </tr>
+  <tr>
+    <td height="30" style="padding-bottom:15px;"><table width="100%" border="0" cellspacing="1" cellpadding="1">
+        <tr>
+          <td align="center"><a href="/main">Мои домены</a></td>
+          <td align="center"><a href="/history">История платежей</a></td>
+          <td align="center"><a href="/pay">Пополнить баланс</a></td>
+          <td align="center"><a href="/pref">Настройки</a></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<div id="modalopen" class="win">
+  <div id="int">
+    <a href="#close" title="Закрыть" class="close">X</a>
+    <span id="modalframe"></span>
+  </div>
+</div>
+<script language="JavaScript" type="text/javascript">
+ShowDomains();
+var timeout = <%= $timeout; %>*1000;
+setTimeout(function() {
+	DelCookie('session');
+	DelCookie('error');
+	DelCookie('error_forgot');
+	DelCookie('fields_storage');
+	window.location.assign("/");
+}, timeout);
+SetError();
+</script>
+</body>
+</html>

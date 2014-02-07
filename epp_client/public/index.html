@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Поиск и регистрация свободных доменов - MIllion - cамая простая и удобная система</title>
+<link href="/css/style.css" rel="stylesheet" type="text/css" />
+<meta name="description" content="Проверить свободен ли домен в раличных дменнным зонах, зерегистрировать наиболее подходящие Вам домены, перевести домен на обслуживание в наш удобный интерфейс Вы можете с помощью нашего сервиса. После регистрации Вам будут доступны уникальные сервися автопродления, защиты домена, а также система напоминаний и самая удобная биллинговая система.">
+<script language="JavaScript" type="text/javascript" src="/js/show_hide_switch.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/cookie.js"></script>
+</head>
+<body>
+<table width="1005" height="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="58"><table width="100%" height="58" border="0" cellpadding="2" cellspacing="2">
+        <tr>
+          <td width="40" align="left" valign="middle"><div class="header">
+              <div class="pref" onclick="javascript:void(0);" tabindex="1">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+              </div>
+              <div class="smenu">
+                <form action="/" id="menu_form" method="post">
+                  <li><a href="/" onclick="javascript:DelCookie('error');">Главная</a></a></li>
+                  <li><a href="/price.html" onclick="javascript:DelCookie('error');">Цены на домены</a></li>
+                  <li><a href="/news.html" onclick="javascript:DelCookie('error');">Новости</a></li>
+                  <li><a href="/dog.html" onclick="javascript:DelCookie('error');">Соглашение</a></li>
+                  <li><a href="/contact.html" onclick="javascript:DelCookie('error');">Контакты</a></li>
+                  <hr>
+                  <li><a href="/add.html" onclick="javascript:DelCookie('error');">Регистрация</a></li>
+                  <li><a href="/add2.html" onclick="javascript:DelCookie('error');">Подтвердить регистрацию</a></li>
+                  <li><a href="/login.html" onclick="javascript:DelCookie('error');">Вход</a></li>
+                </form>
+              </div>
+            </div></td>
+          <td valign="middle">&nbsp;</td>
+          <td width="32" align="center" valign="middle"><div style="display: table-cell;vertical-align: middle;">
+              <div class="cart" onclick="javascript:void(0);" tabindex="1">
+                <div id="domains-storage" style="width:24px;height:24px;color:#ff0000;">
+                  <div class="domains-storage"></div>
+                  <div id="domain-num" style="position:absolute;width: 20px;text-align:center;height: 14px;padding-top: 2px;padding-left: 2px;"></div>
+                </div>
+              </div>
+              <div class="cartmenu">
+                <form action="/cart" id="menu_form" method="post">
+                  <span id="cartmenu"></span>
+                  <div id="regbutton">
+                    <input type="submit" name="regdomain" value="Зарегистрировать">
+                  </div>
+                </form>
+              </div>
+            </div></td>
+          <td width="40" align="right" valign="middle"><a href="/login.html"><img src="img/login.png" width="24" height="24" /></a></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle"><div id="search"><span id="error" style="color:#ff0000;"></span>
+        <form action="/querydomain" id="menu_form" method="post">
+          <table width="100%" border="0" cellspacing="2" cellpadding="2">
+            <tr>
+              <td width="200" align="center" valign="middle">Домен</td>
+              <td align="center" valign="middle"><input id="domain" name="domain" type="text" class="wdth" placeholder="Введите имя домена без WWW и без доменной зоны" onkeyup="checkChar(this)" />
+              </td>
+              <td width="200" align="center" valign="middle"><input type="submit" id="sub" name="sub" value="Проверить" disabled="disabled"/></td>
+            </tr>
+          </table>
+        </form>
+      </div></td>
+  </tr>
+  <tr>
+    <td height="20" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
+        <tr>
+          <td align="center"><a href="/">Главная</a></td>
+          <td align="center"><a href="/add.html">Регистрация</a></td>
+          <td align="center"><a href="/add2.html">Подтвердить регистрацию</a></td>
+          <td align="center"><a href="/price.html">Цены на домены</a></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<div id="modalopen" class="win">
+  <div id="int"> <a href="#close" title="Закрыть" class="close">X</a>
+    <div style="padding:20px;"><span id="modalframe">
+      <form>
+        <table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <tr>
+            <td>Если регистратор домена заблокировал возможность совершения трансфера, обратитесь к регистратору, у которого регистрировался домен, с просьбой снять блокировку трансфера</td>
+          </tr>
+          <tr>
+            <td>Условия переноса</td>
+          </tr>
+          <tr>
+            <td><table width="100%" border="0" cellspacing="1" cellpadding="1">
+                <tr>
+                  <td width="20%">код странсфера </td>
+                  <td><input type="text" name="textfield" class="wdth" /></td>
+                  <td width="40%" align="right">Стоимость переноса: 44 грн </td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td><table width="100%" border="0" cellspacing="1" cellpadding="1">
+                <tr>
+                  <td width="20%">домен</td>
+                  <td><input type="text" name="textfield2" class="wdth" /></td>
+                  <td width="30%" align="right"><input type="submit" name="Submit" value="Перевести" /></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td><p> Есть несколько особенностей при переносе доменов .com/.net/.org/.biz/.info к нам на обслуживание: </p>
+              <ol>
+                <li> Домен должен быть зарегистрирован на Вас (владельца), </li>
+                <li> Текущий регистратор домена должен быть уведомлен о том, что Вы хотите перевести домен к нам на обслуживание. </li>
+                <li>Текущий регистратор в ответ сообщит Вам код трансфера домена (Auth Code/Auth Info). </li>
+                <li> Следует проверить, чтобы для домена был установлен статус, который не будет препятствовать совершению трансфера. К примеру, если домен находится в статусе clientTransferProhibited, заявку на трансфер не удастся отправить, потому как это статус препятствует совершению трансфера. Его необходимо изменить на Ok.</li>
+              </ol></td>
+          </tr>
+        </table>
+      </form>
+      </span></div>
+  </div>
+</div>
+<script language="JavaScript" type="text/javascript">
+ShowDomains();
+SetError();
+DelCookie('error');
+</script>
+</body>
+</html>

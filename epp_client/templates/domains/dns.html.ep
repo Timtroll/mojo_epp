@@ -1,0 +1,167 @@
+% layout 'frame';
+% title 'Main page';
+
+
+  <tr>
+    <td height="40" align="center" valign="middle"><%= $path %></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+
+    <form action="/savedns" id="dns_form" method="post">
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td valign="top"><table width="100%" border="0" cellpadding="2" cellspacing="2">
+      <form action='/CMD_DNS_CONTROL' method='post'>
+        <input class="wdth" type="hidden" name="action" value="add" />
+        <input class="wdth" type="hidden" name="domain" value="osvitapoland.com" />
+        <input class="wdth" type="hidden" name="ptr_val" value="" />
+        <input class="wdth" type="hidden" name="type" value="A" />
+        <tr>
+          <td width="30%"><input class="wdth" type="text" name="name"></td>
+          <td width="1%" align="center">A</td>
+          <td width="30%"><input class="wdth" type="text" name="value" size="26"></td>
+          <td width="20%" align="center"><input type="submit" name="add" value="Add"></td>
+        </tr>
+      </form>
+      <form action='/CMD_DNS_CONTROL' method='post'>
+        <input class="wdth" type="hidden" name="action" value="add" />
+        <input class="wdth" type="hidden" name="domain" value="osvitapoland.com" />
+        <input class="wdth" type="hidden" name="ptr_val" value="" />
+        <input class="wdth" type="hidden" name="type" value="NS" />
+        <tr>
+          <td><input class="wdth" type="text" name="value" value='osvitapoland.com.'></td>
+          <td align="center">NS</td>
+          <td><input class="wdth" type="text" name="name" size="26"></td>
+          <td align="center"><input type="submit" name="add" value="Add"></td>
+        </tr>
+      </form>
+      <form action='/CMD_DNS_CONTROL' method='post'>
+        <input class="wdth" type="hidden" name="action" value="add" />
+        <input class="wdth" type="hidden" name="domain" value="osvitapoland.com" />
+        <input class="wdth" type="hidden" name="ptr_val" value="" />
+        <input class="wdth" type="hidden" name="type" value="MX" />
+      </form>
+      <form action='/CMD_DNS_CONTROL' method='post'>
+        <input class="wdth" type="hidden" name="action" value="add" />
+        <input class="wdth" type="hidden" name="domain" value="osvitapoland.com" />
+        <input class="wdth" type="hidden" name="ptr_val" value="" />
+        <input class="wdth" type="hidden" name="type" value="CNAME" />
+        <tr>
+          <td><input class="wdth" type="text" name="name"></td>
+          <td align="center" style="padding-left:22px;">CNAME</td>
+          <td><input class="wdth" type="text" name="value" value='osvitapoland.com.'  size="26" /></td>
+          <td align="center"><input type="submit" name="add" value="Add"></td>
+        </tr>
+      </form>
+      <form action='/CMD_DNS_CONTROL' method='post'>
+        <input class="wdth" type="hidden" name="action" value="add" />
+        <input class="wdth" type="hidden" name="domain" value="osvitapoland.com" />
+        <input class="wdth" type="hidden" name="ptr_val" value="" />
+        <input class="wdth" type="hidden" name="type" value="PTR" />
+      </form>
+      <form action='/CMD_DNS_CONTROL' method='post'>
+        <input class="wdth" type="hidden" name="action" value="add" />
+        <input class="wdth" type="hidden" name="domain" value="osvitapoland.com" />
+        <input class="wdth" type="hidden" name="ptr_val" value="" />
+        <input class="wdth" type="hidden" name="type" value="TXT" />
+        <tr>
+          <td><input class="wdth" type="text" name="name"></td>
+          <td align="center">TXT</td>
+          <td><input class="wdth" type="text" name="value" size="26"></td>
+          <td align="center"><input type="submit" name="add" value="Add"></td>
+        </tr>
+      </form>
+      <form action='/CMD_DNS_CONTROL' method='post'>
+        <input class="wdth" type="hidden" name="action" value="add" />
+        <input class="wdth" type="hidden" name="domain" value="osvitapoland.com" />
+        <input class="wdth" type="hidden" name="ptr_val" value="" />
+        <input class="wdth" type="hidden" name="type" value="AAAA" />
+      </form>
+      <form action='/CMD_DNS_CONTROL' method='post'>
+        <input class="wdth" type="hidden" name="action" value="add" />
+        <input class="wdth" type="hidden" name="domain" value="osvitapoland.com" />
+        <input class="wdth" type="hidden" name="ptr_val" value="" />
+        <input class="wdth" type="hidden" name="type" value="SRV" />
+        <tr>
+          <td><input class="wdth" type="text" name="name"></td>
+          <td align="center">SRV</td>
+          <td><input class="wdth" type="text" name="value" size="26"></td>
+          <td align="center"><input type="submit" name="add" value="Add"></td>
+        </tr>
+        <tr>
+          <td><input class="wdth" type="text" name="name" /></td>
+          <td align="center">MX</td>
+          <td><select name="value" class="wdth">
+              <option>0</option>
+              <option selected="selected">10</option>
+              <option>20</option>
+              <option>30</option>
+              <option>40</option>
+              <option>50</option>
+              <option>60</option>
+              <option>70</option>
+              <option>80</option>
+              <option>90</option>
+            </select>          </td>
+          <td align="center"><input type="submit" name="add" value="Add" /></td>
+        </tr>
+      </form>
+      <form action='/CMD_DNS_CONTROL' method='post'>
+        <input class="wdth" type="hidden" name="action" value="ttl" />
+        <input class="wdth" type="hidden" name="domain" value="osvitapoland.com" />
+      </form>
+    </table >      
+      <p>&nbsp;</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
+      <tr bgcolor="#f2f2f2">
+        <td>ftp</td>
+        <td>A</td>
+        <td>91.206.200.114</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr>
+        <td>mail</td>
+        <td>A</td>
+        <td>91.206.200.114</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr bgcolor="#f2f2f2">
+        <td>osvitapoland.com.</td>
+        <td>A</td>
+        <td>91.206.200.114</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr>
+        <td>osvitapoland.com.</td>
+        <td>NS</td>
+        <td>ns1.spam.net.ua.</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr bgcolor="#f2f2f2">
+        <td>osvitapoland.com.</td>
+        <td>NS</td>
+        <td>ns1.spam.net.ua.</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr>
+        <td>mail</td>
+        <td>MX</td>
+        <td>10</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr bgcolor="#f2f2f2">
+        <td>osvitapoland.com.</td>
+        <td>TXT</td>
+        <td>&quot;v=spf1 a mx ip4:217.20.175.186 ~all&quot;</td>
+        <td width="20" align="center">X</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+    </form>
+
+      </td>
+  </tr>

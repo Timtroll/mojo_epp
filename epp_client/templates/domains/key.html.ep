@@ -1,0 +1,54 @@
+% layout 'frame';
+% title 'Main page';
+
+
+  <tr>
+    <td height="40" align="center" valign="middle"><%= $path %></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+
+    <form action="/savens" id="dns_form" method="post">
+    <table width="60%" border="0" align="center" cellpadding="2" cellspacing="2">
+      <tr>
+        <td width="30%">name-server:</td>
+        <td width="20" align="center">+</td>
+        <td><input name="textfield2" type="text" class="wdth" value="query.kiev.ua" /></td>
+        <td width="30" align="center" style=" padding-left:20px;">X</td>
+      </tr>
+    </table>
+      <table width="60%" border="0" align="center" cellpadding="2" cellspacing="2">
+        <tr>
+          <td width="30%">name-server:</td>
+          <td width="20" align="center">+</td>
+          <td><input name="textfield22" type="text" class="wdth" value="query.kiev.ua" /></td>
+          <td width="30" align="center" style=" padding-left:20px;">X</td>
+        </tr>
+      </table>
+      <table width="60%" border="0" align="center" cellpadding="2" cellspacing="2">
+        <tr>
+          <td width="30%">name-server:</td>
+          <td width="20" align="center">+</td>
+          <td><input name="textfield23" type="text" class="wdth" value="query.kiev.ua" /></td>
+          <td width="30" align="center" style=" padding-left:20px;">X</td>
+        </tr>
+      </table>
+      <table width="60%" border="0" align="center" cellpadding="2" cellspacing="2">
+        <tr>
+          <td width="30%">Статус домена </td>
+          <td width="20" align="center">&nbsp;</td>
+          <td>
+            <p><input  type="radio"name="status" value="deny" checked="checked" /> запретить изменения</p>
+            <p><input type="radio" name="status" value="allow" /> разрешить изменения</p>
+          </td>
+        </tr>
+      </table>
+      <table width="60%" border="0" align="center" cellpadding="2" cellspacing="2">
+        <tr>
+          <td width="30" align="center" ><input type="submit" name="savedns" value="Сохранить" /></td>
+        </tr>
+      </table>
+      </form>
+
+      </td>
+  </tr>

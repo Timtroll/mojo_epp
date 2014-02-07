@@ -1,0 +1,170 @@
+% layout 'frame';
+% title 'Main page';
+
+
+% use Data::Dumper;
+<tr>
+    <td valign="top">
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td><table align="CENTER" width="90%" border="0" cellspacing="0" cellpadding="6">
+      <tr>
+        <td id="mnu1" class="domain-menua" onclick="javascript:DnsSwitch('mnu1');">Управление Name-серверами</td>
+        <td id="mnu2" class="domain-menu" onclick="javascript:Hide('dns');Show('ns');DnsSwitch('mnu2');">Управление DNS</td>
+      </tr>
+    </table>
+      <br />
+      <div id='dns'><form action="/savens" id="dns_form" method="post">
+% if (scalar(@{$list})) {
+%	for (my $cnt = 0; $cnt < 3; $cnt++) {
+    <table width="60%" border="0" align="center" cellpadding="2" cellspacing="2">
+      <tr>
+        <td width="30%">name-server:</td>
+        <!-- <td width="20" align="center" onclick="javascript:AddInput(this.parentNode, 'ns');" class="domain-menu">+</td> -->
+        <td>
+%		if ($$list[0]->{'ns'}[$cnt]) {
+        <input name="ns_<%= $cnt%>" type="text" class="wdth" value="<%= $$list[0]->{'ns'}[$cnt] %>" placeholder="ns5.spam.net.ua"/>
+%		} else {
+        <input name="ns_<%= $cnt%>" type="text" class="wdth" placeholder="ns5.spam.net.ua"/>
+%		}
+        </td>
+        <!-- <td width="30" align="center" onclick="javascript:DelInput(this.parentNode, 'ns');" style=" padding-left:20px;" class="domain-menu">X</td> -->
+      </tr>
+    </table>
+%	}
+% }
+% my $allow = 'checked="checked"';
+% my $deny = 'checked="checked"';
+% foreach (@{$$list[0]->{'status'}}) {
+%	if (/clientTransferProhibited/) { $allow = ''; }
+% }
+% if ($allow) { $deny = ''; }
+    <table width="60%" border="0" align="center" cellpadding="2" cellspacing="2">
+      <tr>
+        <td width="30%">Статус домена </td>
+        <td>
+          <input type="checkbox" name="status" value="allow" <%= $allow %> /> разрешить изменения
+        </td>
+      </tr>
+    </table>
+    <table width="60%" border="0" align="center" cellpadding="2" cellspacing="2">
+      <tr>
+        <td width="30" align="center" ><input type="submit" name="savedns" value="Сохранить" /></td>
+      </tr>
+    </table>
+    </form></div><div id="ns"><table align="CENTER" width="90%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td><input class="wdth" type="text" name="name" /></td>
+    <td align="center" width="80">A</td>
+    <td><input class="wdth" type="text" name="name7" /></td>
+    <td align="right" width="60"><input type="submit" name="add" value="Add" /></td>
+  </tr>
+</table>
+<table align="CENTER" width="90%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td><input class="wdth" type="text" name="name2" /></td>
+    <td align="center" width="80">NS</td>
+    <td><input class="wdth" type="text" name="name8" /></td>
+    <td align="right" width="60"><input type="submit" name="add2" value="Add" /></td>
+  </tr>
+</table>
+<table align="CENTER" width="90%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td><input class="wdth" type="text" name="name3" /></td>
+    <td align="center" width="80">CNAME</td>
+    <td><input class="wdth" type="text" name="name9" /></td>
+    <td align="right" width="60"><input type="submit" name="add3" value="Add" /></td>
+  </tr>
+</table>
+<table align="CENTER" width="90%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td><input class="wdth" type="text" name="name4" /></td>
+    <td align="center" width="80">TXT</td>
+    <td><input class="wdth" type="text" name="name10" /></td>
+    <td align="right" width="60"><input type="submit" name="add4" value="Add" /></td>
+  </tr>
+</table>
+<table align="CENTER" width="90%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td><input class="wdth" type="text" name="name5" /></td>
+    <td align="center" width="80">SRV</td>
+    <td><input class="wdth" type="text" name="name11" /></td>
+    <td align="right" width="60"><input type="submit" name="add5" value="Add" /></td>
+  </tr>
+</table>
+<table align="CENTER" width="90%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td><input class="wdth" type="text" name="name6" /></td>
+    <td align="center" width="80">MX</td>
+    <td><select name="value" class="wdth">
+      <option>0</option>
+      <option selected="selected">10</option>
+      <option>20</option>
+      <option>30</option>
+      <option>40</option>
+      <option>50</option>
+      <option>60</option>
+      <option>70</option>
+      <option>80</option>
+      <option>90</option>
+    </select></td>
+    <td align="right" width="60"><input type="submit" name="add6" value="Add" /></td>
+  </tr>
+</table>
+      <br />
+      <table align="CENTER" width="90%" border="0" cellspacing="4" cellpadding="4">
+      <tr bgcolor="#f2f2f2">
+        <td>ftp</td>
+        <td>A</td>
+        <td>91.206.200.114</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr>
+        <td>mail</td>
+        <td>A</td>
+        <td>91.206.200.114</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr bgcolor="#f2f2f2">
+        <td>osvitapoland.com.</td>
+        <td>A</td>
+        <td>91.206.200.114</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr>
+        <td>osvitapoland.com.</td>
+        <td>NS</td>
+        <td>ns1.spam.net.ua.</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr bgcolor="#f2f2f2">
+        <td>osvitapoland.com.</td>
+        <td>NS</td>
+        <td>ns1.spam.net.ua.</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr>
+        <td>mail</td>
+        <td>MX</td>
+        <td>10</td>
+        <td width="20" align="center">X</td>
+      </tr>
+      <tr bgcolor="#f2f2f2">
+        <td>osvitapoland.com.</td>
+        <td>TXT</td>
+        <td>&quot;v=spf1 a mx ip4:217.20.175.186 ~all&quot;</td>
+        <td width="20" align="center">X</td>
+      </tr>
+    </table></div></td>
+  </tr>
+</table>
+<script language="JavaScript" type="text/javascript">
+Hide('ns');
+Show('dns');
+var dns = getCookie('dns_storage');
+var lst = new Array();
+lst = JSON.parse(dns);
+DnsSwitch(lst[0]);
+</script>
+</td>
+</tr>

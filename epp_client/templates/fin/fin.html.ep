@@ -1,0 +1,93 @@
+% layout 'users';
+% title 'Main page';
+% use Subs;
+% my @date = localtime(time());
+
+%= include 'login/path_balance', path => $path;
+
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td height="10"><span id="error_message" style="color:red;"></span></td>
+  </tr>
+  <tr>
+    <td height="40" valign="BOTTOM"><img src="/img/pb24.jpg">Оплата с помощью карточки <strong>Приват24 (<span id="primatcom"></span>% комиссии)</strong></td>
+  </tr>
+  %# unless ($balance) {
+  <tr>
+    <td>
+    <fo rm action="http://localhost/sendpay" method="POST">
+    <form action="https://api.privatbank.ua/p24api/ishop" method="POST">
+<input type="hidden" name="merchant" value="98046" /> 
+<input type="hidden" name="order" value="<%= $order %>" />
+<input type="hidden" name="details" value="Popolnenie balansa" />
+<input type="hidden" name="ext_details" value="" />
+<input type="hidden" name="pay_way" value="privat24" />
+<input type="hidden" name="return_url" value="http://<%= $config->{'conf'}->{'url'} %>/sendpay" />
+<input type="hidden" name="server_url" value="http://<%= $config->{'conf'}->{'url'} %>/sendpay" />
+    <table width="100%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td width="25%">Сумма пополнения баланса:</td>
+    <td width="20%"><input type="text" name="amt" id="amt" class="wdth" onKeyUp="chkDigit(this);countPer();" placeholder="Сумма пополнения"/ value="<%= $amt %>"></td>
+    <td width="15%" align="CENTER">
+    <div style="padding:3px;"><input name="ccy" type="radio" value="UAH" onClick="countPer();"
+% unless ($ccy) {
+  checked="checked"
+% } else {
+%	if ($ccy eq 'UAH') {
+  checked="checked"
+%	}
+% }
+>UAH</div>
+    <div style="padding:3px;"><input name="ccy" type="radio" value="USD" onClick="countPer();"
+% if ($ccy eq 'USD') {
+  checked="checked"
+% }
+>USD</div>
+    <div style="padding:3px;"><input name="ccy" type="radio" value="EUR" onClick="countPer();"
+% if ($ccy eq 'EUR') {
+  checked="checked"
+% }
+>EUR</div></td>
+    <td width="10%"><input name="submit" type="submit" value="оплатить" /></td>
+    <td width="30%" align="LEFT">Поступит на ваш счет: <span id="primat" style="color:red"></span></td>
+  </tr>
+</table>
+    </form></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><!--Оплата с помощью <strong>Webmoney (7% комиссии)</strong>--></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  %# }
+</table>
+<script language="JavaScript" type="text/javascript">
+countPer();
+function countPer() {
+	var comission = <%= $config->{'conf'}->{'primat_comiss'} %>;
+	var amount = 0;
+	if (document.getElementById('amt').value) {
+		amount = document.getElementById('amt').value;
+	}
+	if (amount < <%= $recharge %>) {
+		amount = <%= $recharge %>;
+		document.getElementById('amt').value = amount;
+	}
+	var inputs = document.getElementsByName("ccy");
+	var selectedValue;
+	for (var i = 0; i < inputs.length; i++) {
+		if (inputs[i].checked)
+		{
+			selectedValue = inputs[i].value;
+			break;
+		}
+	}
+	document.getElementById('primatcom').innerHTML = comission;
+	document.getElementById('primat').innerHTML = ((amount/100)*(100 - comission)).toFixed(2) + " " + selectedValue;
+
+}
+</script>

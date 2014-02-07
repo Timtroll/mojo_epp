@@ -1,0 +1,8 @@
+% layout 'default';
+% title 'Login page';
+
+% if ($mess) {
+	%= $mess;
+% }
+<hr>
+List

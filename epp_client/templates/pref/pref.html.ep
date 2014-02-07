@@ -1,0 +1,277 @@
+% layout 'users';
+% title 'Main page';
+
+%= include 'login/path_balance', path => $path, balance => $balance;
+
+% if ($type =~ /^admin$/) {
+<script language="JavaScript" type="text/javascript" src='/js/country.js'></script>
+% }
+<br>
+<form action="/savepref" id="reg_form" method="post">
+  <table width="100%" border="0" cellspacing="0" cellpadding="4">
+    <tr>
+      <td><table width="27%" border="0" align="left" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><table width="100%" border="0" cellpadding="2" cellspacing="2" style="float:left;">
+                <tr>
+                  <td width="30%" height="38">Login</td>
+                  <td height="38" style="padding-right:20px;"><input name="login" type="text" class="wdth" id="login" onKeyUp="checkLogin(this);CheckFieldsAdmin()" maxlength="16" placeholder="Введите свой логин" value="<%= $$list{'login'} %>"/></td>
+                </tr>
+                <tr>
+                  <td width="30%">Password</td>
+                  <td style="padding-right:20px;"><input name="pass" type="password" class="wdth" id="pass" onKeyUp="checkLogin(this);CheckFieldsAdmin()" maxlength="32" placeholder="Введите новый пароль"/></td>
+                </tr>
+                <tr>
+                  <td>cunic</td>
+                  <td><b><%= $$list{'id'} %></b><input type="hidden" name="id" value="<%= $$list{'id'} %>"></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td><em>Скидка</em></td>
+                  <td><span id="discont"><em><strong><%= $discount %></strong> %</em></span> </td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td class="small">Чем больше доменов у вас в аккаунте, тем большую скидку Вы получаете. Скидка рассчитывается автоматически </td>
+          </tr>
+          <tr>
+            <td height="30"></td>
+          </tr>
+          <tr>
+            <td>
+ 	<table width="100%" border="0" cellpadding="4" cellspacing="4">
+	  <tr>
+		<td>Автопродление доменов</td>
+		<td width="1%"><input type="checkbox" name="autorenew" id="autorenew" value="1" onClick="javascript:total()"
+% if ($$list{'autorenew'}) {
+ checked="checked"
+% }
+/></td>
+	  </tr>
+	  <tr>
+		<td>Напоминание по Email</td>
+		<td width="1%"><input type="checkbox" name="notification" id="notification" value="1" onClick="javascript:total()"
+% if ($$list{'notification'}) {
+ checked="checked"
+% }
+/></td>
+	  </tr>
+	  <tr>
+		<td>Доступ к Auth-code</td>
+		<td width="1%"><input type="checkbox" name="transfer" id="transfer" value="1" onClick="javascript:total()"
+% if ($$list{'transfer'}) {
+ checked="checked"
+% }
+/></td>
+	  </tr>
+	  <tr>
+		<td>Защита доменов</td>
+		<td width="1%"><input type="checkbox" name="prohibit" id="prohibit" value="1" onClick="javascript:total()"
+% if ($$list{'prohibit'}) {
+ checked="checked"
+% }
+/></td>
+	  </tr>
+	  <tr>
+		<td>Управление NS-серверами</td>
+		<td width="1%"><input type="checkbox" name="nschanging" id="nschanging" value="1" onClick="javascript:total()"
+% if ($$list{'nschanging'}) {
+ checked="checked"
+% }
+/></td>
+	  </tr>
+	  <tr>
+		<td>Управление DNS</td>
+		<td width="1%"><input type="checkbox" name="dnschanging" id="dnschanging" value="1" onClick="javascript:total()"
+% if ($$list{'dnschanging'}) {
+ checked="checked"
+% }
+/></td>
+	  </tr>
+	</table>
+		</td>
+	</tr>
+       </table>
+        <table width="67%" border="0" align="right" cellpadding="2" cellspacing="2" style="margin-right:20px;">
+          <tr>
+            <td class="callout">Страна:</td>
+            <td>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="6%"><input class="wdth" name="cc" id="cc" value="<%= uc($$list{'cc'}); %>" type="text" size="4" maxlength="2"
+% if ($type =~ /^admin$/) {
+ onKeyUp="javascript:chkChar(this);Country();CheckFieldsAdmin();"
+% } else {
+ disabled="disabled"
+% }
+/></td>
+                  <td width="30">&nbsp;</td>
+                  <td>
+% if ($type =~ /^admin$/) {
+                    <div id="countr_none">Латинская аббревиатура (например RU)</div>
+                    <div id="country" class="country"></div>
+% }
+</td>
+                </tr>
+              </table>
+              <div class="country-none" id="countr_list"></div></td>
+          </tr>
+          <tr>
+            <td class="callout">ФИО:</td>
+            <td><input name="name" type="text" class="wdth" id="name" maxlength="256" placeholder="Введите ваши ФИО" value="<%= $$list{'name'} %>"
+% if ($type =~ /^admin$/) {
+ onKeyUp="CheckFieldsAdmin()"
+% } else {
+ disabled="disabled"
+% }
+/></td>
+          </tr>
+          <tr>
+            <td class="callout">&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="callout">Email:</td>
+            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="40%"><input name="email" type="text" class="wdth" id="email" maxlength="64" placeholder="Работающий e-mail" value="<%= $$list{'email'} %>"
+% if ($type =~ /^admin$/) {
+ onKeyUp="CheckFieldsAdmin()"
+% } else {
+ disabled="disabled"
+% }
+/></td>
+                <td width="80" align="right" style="padding-right:10px;">Фирма:</td>
+                  <td><input name="org" type="text" class="wdth" maxlength="64"  value="<%= $$list{'org'} %>"
+% unless ($type =~ /^admin$/) {
+ disabled="disabled"
+% }
+/></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td class="callout">Телефон:</td>
+            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="40%"><input name="voice" type="text" class="wdth" id="voice" maxlength="20" placeholder="+380.442228833" value="<%= $$list{'voice'} %>"
+% if ($type =~ /^admin$/) {
+ onKeyUp="CheckFieldsAdmin()"
+% } else {
+ disabled="disabled"
+% }
+/></td>
+                  <td width="80" align="right" style="padding-right:10px;"><span class="callout">Факс:</span></td>
+                  <td><input name="fax" type="text" class="wdth" maxlength="10"  maxlength="20" placeholder="+380.442228833"value="<%= $$list{'fax'} %>"
+% unless ($type =~ /^admin$/) {
+ disabled="disabled"
+% }
+/></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td class="callout">&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="callout">&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="callout">Почтовый индекс:</td>
+            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="45" align="right"><input id="pc" name="pc" type="text" class="wdth" maxlength="6" placeholder="индекс" value="<%= $$list{'pc'} %>"
+% if ($type =~ /^admin$/) {
+ onKeyUp="CheckFieldsAdmin()"
+% } else {
+ disabled="disabled"
+% }
+/></td>
+                  <td width="155" align="right" style="padding-right:10px;">Область:</td>
+                  <td><input name="sp" type="text" class="wdth" maxlength="32" value="<%= $$list{'sp'} %>"
+% unless ($type =~ /^admin$/) {
+ disabled="disabled"
+% }
+/></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td width="22%" class="callout">Город:</td>
+            <td width="78%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="120"><input name="city" type="text" class="wdth" id="city" maxlength="32" placeholder="Введите город" value="<%= $$list{'city'} %>"
+% if ($type =~ /^admin$/) {
+ onKeyUp="CheckFieldsAdmin()"
+% } else {
+ disabled="disabled"
+% }
+/></td>
+                  <td width="80" align="right" style="padding-right:10px;">Улица:</td>
+                  <td><input name="street" type="text" class="wdth" id="street" maxlength="64" placeholder="Введите улицу + дом + № офиса/квартиры"
+% if ($$list{'street'}) {
+%	unless ($$list{'street'} =~ /none/) {
+ value="<%= $$list{'street'} %>"
+%	}
+% }
+% if ($type =~ /^admin$/) {
+ onKeyUp="CheckFieldsAdmin()"
+% } else {
+ disabled="disabled"
+% }
+/></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td class="callout">&nbsp;</td>
+            <td>* Обязательные для заполнения поля имеют подсказки </td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+	<td>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td width="27%">
+		<table width="100%" border="0" align="left" cellpadding="2" cellspacing="2">
+                    <tr>
+                      <td class="prop"><em>Абонплата</em>:</td>
+                      <td align="right"><em><strong><span id="total"></span></strong></em></td>
+                    </tr>
+                 </table>
+			</td>
+			<td align="center"><input type="submit" id="singup" name="singup" onClick="javascript:DelCookie('error');" value="Сохранить" /></td>
+		</tr>
+	</table>
+	</td>
+    </tr>
+  </table>
+</form>
+
+% if ($type =~ /^admin$/) {
+<script language="JavaScript" type="text/javascript">
+total(0);
+function total (discount) {
+	var total = 0;
+	if (document.getElementById('autorenew').checked) { total = total + (document.getElementById('autorenew').value * 1); }
+	if (document.getElementById('notification').checked) { total = total + (document.getElementById('notification').value * 1); }
+	if (document.getElementById('transfer').checked) { total = total + (document.getElementById('transfer').value * 1); }
+	if (document.getElementById('prohibit').checked) { total = total + (document.getElementById('prohibit').value * 1); }
+	if (document.getElementById('nschanging').checked) { total = total + (document.getElementById('nschanging').value * 1); }
+	if (document.getElementById('dnschanging').checked) { total = total + (document.getElementById('dnschanging').value * 1); }
+	document.getElementById('total').innerHTML = total + ".00 грн/мес";
+}
+
+//buildOrder();
+CheckFieldsAdmin();
+SetError();
+ShowDomains();
+</script>
+% }

@@ -1,0 +1,34 @@
+% layout 'users';
+% title 'Main page';
+
+% my @date = localtime(time());
+
+%= include 'login/path_balance', path => $path, balance => $balance;
+
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+	<tr>
+		<td height="10"><span id="error_message" style="color:red;"></span></td>
+	</tr>
+	<tr>
+		<td valign="top" align="center">Прогнозируемые расходы</td>
+	</tr>
+	<tr>
+		<td valign="top">
+%= include 'fin/calendar', months => $months;
+                  <div style=" padding-top:200px;"><hr>
+                   <table width="100%" border="0" cellspacing="4" cellpadding="4">
+% foreach (@{$list}) {
+                       <tr>
+                        <td><a href="#modalopen" onclick="javascript:open_frame('/payment?order=<%= $_->{'payment'}->{'order'} %>');"><%= $_->{'detail'} %> <%= $config->{'mesg'}->{$_->{'payment'}->{'pay_way'}} %></a></td>
+                        <td align="center"><%= $_->{'summ'} %> <%= $_->{'payment'}->{'ccy'} %></td>
+                        <td align="right">
+%= $_->{'date'};
+% my @tmp = localtime($_->{'time'});
+<%= $tmp[2] %>:<%= $tmp[1] %>
+                        </td>
+                      </tr>
+% }
+                    </table>
+                  </div></td>
+              </tr>
+            </table>
