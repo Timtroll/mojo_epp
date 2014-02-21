@@ -40,6 +40,8 @@ print "$_->{'name'}\n";
 				print "$_->{'exDate'}\n";
 				print "\n";
 			}
+
+			# check 
 			sleep 0.2;
 		}
 	}
