@@ -158,15 +158,16 @@
             <td class="callout">Телефон:</td>
             <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td width="40%"><input name="voice" type="text" class="wdth" id="voice" maxlength="20" placeholder="+380.442228833" value="<%= $$list{'voice'} %>"
+				  <td width="10%" id="coun_code">&nbsp;</td>
+                  <td width="35%"><input name="voice" type="text" class="wdth" id="voice" maxlength="20" placeholder="код города и номер" value="<%= $$list{'voice'} %>"
 % if ($type =~ /^admin$/) {
  onKeyUp="CheckFieldsAdmin()"
 % } else {
  disabled="disabled"
 % }
 /></td>
-                  <td width="80" align="right" style="padding-right:10px;"><span class="callout">Факс:</span></td>
-                  <td><input name="fax" type="text" class="wdth" maxlength="10"  maxlength="20" placeholder="+380.442228833"value="<%= $$list{'fax'} %>"
+                  <td width="15%" align="right" style="padding-right:10px;"><span class="callout">Факс:</span></td>
+                  <td width="35%"><input name="fax" type="text" class="wdth"  maxlength="20" placeholder="код города и номер"value="<%= $$list{'fax'} %>"
 % unless ($type =~ /^admin$/) {
  disabled="disabled"
 % }
@@ -273,5 +274,6 @@ function total (discount) {
 CheckFieldsAdmin();
 SetError();
 ShowDomains();
+Country();
 </script>
 % }

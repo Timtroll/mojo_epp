@@ -231,17 +231,6 @@ sub connect_epp {
 	return $epp, \%answer;
 }
 
-sub create_rnd {
-	my ($amount, $out, @chars);
-	$amount = shift;
-
-	srand();
-	@chars = split('', 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz');
-	$out = join("", @chars[ map{ rand @chars } (0 .. $amount) ]);
-
-	return $out;
-}
-
 sub error {
 	my $self = shift;
 
@@ -802,10 +791,9 @@ sub create_rnd {
 	$amount = shift;
 
 	$amount--;
-	srand();
 	@chars = split('', 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz');
 	$out = join("", @chars[ map{ rand @chars } (0 .. ($amount-6)) ]);
-	@chars = split('', '!#$%*_');
+	@chars = split('', '!$_@');
 	$out .= join("", @chars[ map{ rand @chars } (0 .. 1) ]);
 	@chars = split('', [0 .. 9]);
 	$out .= join("", @chars[ map{ rand @chars } (0 .. 1) ]);

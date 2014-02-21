@@ -151,48 +151,47 @@ sub singup {
 				'email'	=> $self->param('email'),
 				'login'	=> $self->param('login'),
 				'user'	=> {
-					"postalInfo" => {
-						"loc" => {
-							"org"	=> $self->param('org'),
-							"c"	=> $self->param('name'),
-							"addr" => {
-								"sp"	=> $self->param('sp'),
-								"city"	=> $self->param('city'),
-								"cc"	=> $self->param('cc'),
-								"street" => [ 
+					'postalInfo' => {
+						'loc' => {
+							'org'	=> $self->param('org'),
+							'name'	=> $self->param('name'),
+							'addr' => {
+								'sp'	=> $self->param('sp'),
+								'city'	=> $self->param('city'),
+								'cc'	=> $self->param('cc'),
+								'street' => [ 
 									$self->param('street'),
 								],
-								"pc" => $self->param('pc'),
+								'pc' => $self->param('pc'),
 							}
 						}
 					},
-					"status" => [ 
-						"new"
+					'status' => [ 
+						'new'
 					],
-					"voice"		=> $self->param('voice'),
-					"fax"		=> $self->param('fax'),
-					"email"		=> $self->param('email'),
-					"usertype"	=> "new",
-					"id"		=> '',
-					"login"		=> $self->param('login'),
-					"pass"		=> $self->param('pass'),
-					"package" => {
-						"discount"	=> 0,
-						"autorenew"	=> 0,
-						"notification"	=> 0,
-						"transfer"	=> 0,
-						"prohibit"	=> 0,
-						"nschanging"	=> 0
+					'voice'		=> $self->param('voice'),
+					'fax'		=> $self->param('fax'),
+					'email'		=> $self->param('email'),
+					'usertype'	=> 'user',
+					'id'		=> '',
+					'login'		=> $self->param('login'),
+					'pass'		=> $self->param('pass'),
+					'package' => {
+						'discount'	=> 0,
+						'autorenew'	=> 0,
+						'notification'	=> 0,
+						'transfer'	=> 0,
+						'prohibit'	=> 0,
+						'nschanging'	=> 0
 					},
-					"crDate"		=> sec2date(time(), 'iso'),
-					"discount"		=> 4,
-					"usetype"		=> 'user',
+					'crDate'		=> sec2date(time(), 'iso'),
+					'discount'		=> 4,
 
-					"roid"			=> '',
-					"upID"			=> '',
-					"clID"			=> $config->{'conf'}->{'epp_user'},
-					"crID"			=> $config->{'conf'}->{'epp_user'},
-					"authInfo"		=> ''
+					'roid'			=> '',
+					'upID'			=> '',
+					'clID'			=> $config->{'conf'}->{'epp_user'},
+					'crID'			=> $config->{'conf'}->{'epp_user'},
+					'authInfo'		=> ''
 				}
 			};
 			&dbinsert($self->{'app'}->{'new_users'}, $query);
@@ -326,7 +325,6 @@ sub confirm {
 			# Create new user in user-list database
 			&dbinsert($self->{'app'}->{'users'}, $$codes[0]->{'user'});
 
-
 			# check added users in user & balance databases
 			$list = &dblist(
 				'collection'	=> $self->{'app'}->{'users'},
@@ -370,11 +368,11 @@ sub confirm {
 			&dbremove($self->{'app'}->{'new_users'}, {'email' => $$codes[0]->{'email'}} );
 
 			# prepare user data for sending to user
-			@tmp = ('login', 'pass', 'name', 'org', 'street', 'city', 'sp', 'pc', 'cc', 'voice', 'fax', 'email');
-			map { $text .= $self->param($_); } (@tmp);
-			$text .= "<hr>\n\n";
-			@tmp = ('autorenew', 'notification', 'transfer', 'prohibit', 'nschanging', 'dnschanging');
-			map { $text .= $self->param($_); } (@tmp);
+#			@tmp = ('login', 'pass', 'name', 'org', 'street', 'city', 'sp', 'pc', 'cc', 'voice', 'fax', 'email');
+#			map { $text .= $self->param($_); } (@tmp);
+#			$text .= "<hr>\n\n";
+#			@tmp = ('autorenew', 'notification', 'transfer', 'prohibit', 'nschanging', 'dnschanging');
+#			map { $text .= $self->param($_); } (@tmp);
 
 			# Send mail to new user
 			$resp = &send_mail(
@@ -385,42 +383,39 @@ sub confirm {
 				'from'	=> $config->{'conf'}->{'robot_mail'},
 				'to'	=> $$codes[0]->{'email'},
 				'subj'	=> 'Confirmed',
-				'text'	=> $config->{'mesg'}->{'new_user_created'}.$text
+#				'text'	=> $config->{'mesg'}->{'new_user_created'}.$text
+				'text'	=> $config->{'mesg'}->{'new_user_created'}
 			);
 
 			if ($resp) {
 				push @error, "restore=".$config->{'mesg'}->{'while_sending_error'};
 			}
-			else {
-				push @error, "restore=".$config->{'mesg'}->{'sent_restored'};
-			}
 
 			# add creating user command in epp queue
 			$query = {
-				owner	=> $self->param('name'),
-				status	=> 'new',
-				date	=> join('', Time::HiRes::gettimeofday),
-				command	=> 'create_contact',
-				request	=> {
-					chg => {
-						postalInfo => {
-							int => {
-								name => $self->param('name'),
-								org => $self->param('org'),
-								addr => {
-									street => [ $self->param('street') ],
-									city => $self->param('city'),
-									sp => $self->param('sp'),
-									pc => $self->param('pc'),
-									cc => uc($self->param('cc'))
-								},
+				'owner'		=> $$codes[0]->{'user'}->{'login'},
+				'status'	=> 'new',
+				'date'		=> join('', Time::HiRes::gettimeofday),
+				'command'	=> 'create_contact',
+				'request'	=> {
+					'id' => 'autonic',
+					'postalInfo' => {
+						'loc' => {
+							'name' => $$codes[0]->{'user'}->{'postalInfo'}->{'loc'}->{'name'},
+							'org' => $$codes[0]->{'user'}->{'postalInfo'}->{'loc'}->{'org'},
+							'addr' => {
+								'street'=> [ $$codes[0]->{'user'}->{'postalInfo'}->{'loc'}->{'addr'}->{'street'}[0] ],
+								'city'	=> $$codes[0]->{'user'}->{'postalInfo'}->{'loc'}->{'addr'}->{'city'},
+								'sp'	=> $$codes[0]->{'user'}->{'postalInfo'}->{'loc'}->{'addr'}->{'sp'},
+								'pc'	=> $$codes[0]->{'user'}->{'postalInfo'}->{'loc'}->{'addr'}->{'pc'},
+								'cc'	=> $$codes[0]->{'user'}->{'postalInfo'}->{'loc'}->{'addr'}->{'cc'}
 							},
 						},
-						voice => &format_phone($self->param('fax')),
-						fax => &format_phone($self->param('fax')),
-						email => $self->param('email'),
-						authInfo => &create_rnd(11)
-					}
+					},
+					'voice'	=> &format_phone($$codes[0]->{'user'}->{'voice'}),
+					'fax'	=> &format_phone($$codes[0]->{'user'}->{'fax'}),
+					'email'	=> $$codes[0]->{'user'}->{'email'},
+					'authInfo' => &create_rnd(11)
 				}
 			};
 			&dbinsert($self->{'app'}->{'queue_contacts'}, $query);

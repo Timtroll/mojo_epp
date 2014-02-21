@@ -134,9 +134,9 @@
                         <td class="callout">Email:</td>
                         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                              <td width="40%"><input name="email" type="text" class="wdth" id="email" onkeyup="CheckFields()" maxlength="64" placeholder="Работающий e-mail" /></td>
-                              <td width="80" align="right" style="padding-right:10px;">Фирма:</td>
-                              <td><input name="org" type="text" class="wdth" maxlength="64" /></td>
+                              <td width="45%"><input name="email" type="text" class="wdth" id="email" onkeyup="CheckFields()" maxlength="64" placeholder="Работающий e-mail" /></td>
+                              <td width="15%" align="right" style="padding-right:10px;">Фирма:</td>
+                              <td width="35%"><input name="org" type="text" class="wdth" maxlength="64" /></td>
                             </tr>
                           </table></td>
                       </tr>
@@ -144,9 +144,10 @@
                         <td class="callout">Телефон:</td>
                         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                              <td width="40%"><input name="voice" type="text" class="wdth" id="voice" onkeyup="CheckFields()" maxlength="10" placeholder="Номер телефона" /></td>
-                              <td width="80" align="right" style="padding-right:10px;"><span class="callout">Факс:</span></td>
-                              <td><input name="fax" type="text" class="wdth" maxlength="10" /></td>
+                              <td width="10%" id="coun_code">&nbsp;</td>
+                              <td width="35%"><input name="voice" type="text" class="wdth" id="voice" onkeyup="CheckFields()" maxlength="18" placeholder="код города и номер" /></td>
+                              <td width="15%" align="right" style="padding-right:10px;"><span class="callout">Факс:</span></td>
+                              <td width="35%"><input name="fax" type="text" class="wdth" maxlength="18" placeholder="код города и номер" /></td>
                             </tr>
                           </table></td>
                       </tr>
@@ -219,6 +220,7 @@ CheckFields();
 SetError();
 ShowDomains();
 DelCookie('error');
+Country();
 </script>
 </body>
 </html>

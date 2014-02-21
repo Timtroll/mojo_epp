@@ -99,7 +99,9 @@ function Extend(year) {
 		}
 	}
 	Show('months');
-	Hide('newdomains');
+	if (window.document.getElementById('newdomains')) {
+		Hide('newdomains');
+	}
 }
 function allDomains() {
 	window.document.getElementById('curday').className = 'content';
@@ -107,14 +109,18 @@ function allDomains() {
 		Show('line_'+i);
 	}
 	Show('months');
-	Hide('newdomains');
+	if (window.document.getElementById('newdomains')) {
+		Hide('newdomains');
+	}
 }
 function New() {
 	for (var i = 1; i <= <%= scalar(@{$list}) %>; i++) {
 		Hide('line_'+i);
 	}
 	Hide('months');
-	Show('newdomains');
+	if (window.document.getElementById('newdomains')) {
+		Show('newdomains');
+	}
 	window.document.getElementById('curday').className = '';
 }
 function SwitchExt(object) {

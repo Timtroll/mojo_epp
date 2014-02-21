@@ -233,7 +233,7 @@ sub create_rnd {
 	srand();
 	@chars = split('', 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz');
 	$out = join("", @chars[ map{ rand @chars } (0 .. ($amount-6)) ]);
-	@chars = split('', '!#$%*_');
+	@chars = split('', '*_-@[]|');
 	$out .= join("", @chars[ map{ rand @chars } (0 .. 1) ]);
 	@chars = split('', [0 .. 9]);
 	$out .= join("", @chars[ map{ rand @chars } (0 .. 1) ]);

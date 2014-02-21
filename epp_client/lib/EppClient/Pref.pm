@@ -8,10 +8,13 @@ use Time::HiRes;
 use Data::Dumper;
 
 use common;
+use codes;
 use Subs;
 
 my $log = Mojo::Log->new(path => 'log/login.log', level => 'debug');
 my %fields = (
+	'id'	=> 1,
+
 	'org'	=> 0,
 	'fax'	=> 0,
 	'id'	=> 0,
@@ -51,7 +54,7 @@ sub pref {
 	$self->cookie('error' => '', {expires => -1} );
 	$self->render(
 		template=> '/pref/pref',
-		path	=> $config->{mesg}->{'edit_contact'},
+		path	=> $config->{'mesg'}->{'edit_contact'},
 		balance	=> $self->session->{'balance'},
 		type	=> $self->session->{'type'},
 		discount=> $dis,
@@ -59,6 +62,7 @@ sub pref {
 		timeout => $config->{'conf'}->{'epp_timeout'},
 		list	=> \%out
 	);
+	return;
 }
 
 sub getpref {
@@ -85,7 +89,7 @@ sub getpref {
 	}
 
 	if ($flag) {
-		if ($$list[0]->{'org'}) { $out{'org'} = $$list[0]->{'postalInfo'}->{'loc'}->{'org'}; }
+		if ($$list[0]->{'postalInfo'}->{'loc'}->{'org'}) { $out{'org'} = $$list[0]->{'postalInfo'}->{'loc'}->{'org'}; }
 		else { $out{'org'} = ''; }
 		if ($$list[0]->{'fax'}) { $out{'fax'} = $$list[0]->{'fax'}; }
 		else { $out{'fax'} = ''; }
@@ -100,8 +104,21 @@ sub getpref {
 		else { $out{'name'} = ''; $empty++; }
 		if ($$list[0]->{'email'}) { $out{'email'} = $$list[0]->{'email'}; }
 		else { $out{'email'} = ''; $empty++; }
-		if ($$list[0]->{'voice'}) { $out{'voice'} = $$list[0]->{'voice'}; }
+		if ($$list[0]->{'voice'}) {
+			$out{'voice'} = $$list[0]->{'voice'};
+			if ($out{'voice'}) {
+				$out{'voice'} =~ s/^\+\d+\.//;
+				$out{'voice'} =~ s/\D//go;
+			}
+		}
 		else { $out{'voice'} = ''; $empty++; }
+		if ($$list[0]->{'fax'}) {
+			$out{'fax'} = $$list[0]->{'fax'};
+			if ($out{'fax'}) {
+				$out{'fax'} =~ s/^\+\d+\.//;
+				$out{'fax'} =~ s/\D//go;
+			}
+		}
 		if ($$list[0]->{'postalInfo'}->{'loc'}->{'addr'}->{'pc'}) { $out{'pc'} = $$list[0]->{'postalInfo'}->{'loc'}->{'addr'}->{'pc'}; }
 		else { $out{'pc'} = ''; $empty++; }
 		if ($$list[0]->{'postalInfo'}->{'loc'}->{'addr'}->{'sp'}) { $out{'sp'} = $$list[0]->{'postalInfo'}->{'loc'}->{'addr'}->{'sp'}; }
@@ -126,9 +143,10 @@ sub getpref {
 					if ($fields{$_}) { $empty++; }
 				}
 			}
+print Dumper(\%out);
 		}
 		else {
-			if ($$list[0]->{'org'}) { $out{'org'} = $$list[0]->{'postalInfo'}->{'loc'}->{'org'}; }
+			if ($$list[0]->{'postalInfo'}->{'loc'}->{'org'}) { $out{'org'} = $$list[0]->{'postalInfo'}->{'loc'}->{'org'}; }
 			else { $out{'org'} = ''; }
 			if ($$list[0]->{'fax'}) { $out{'fax'} = $$list[0]->{'fax'}; }
 			else { $out{'fax'} = ''; }
@@ -165,7 +183,7 @@ sub getpref {
 }
 
 sub savepref {
-	my ($self, $domain, $dis, $empty, $query, $find, $resp, $text, $txt, @error);
+	my ($self, $domain, $dis, $empty, $query, $find, $resp, $text, $txt, $code, @error);
 	($self) = @_;
 
 	$domain = $self->param('domain');
@@ -177,7 +195,7 @@ sub savepref {
 		%out = ();
 		$self->render(
 			template=> '/pref/pref',
-			path	=> $config->{mesg}->{'edit_contact'},
+			path	=> $config->{'mesg'}->{'edit_contact'},
 			balance	=> $self->session->{'balance'},
 			type	=> $self->session->{'type'},
 			discount=> $dis,
@@ -187,7 +205,7 @@ sub savepref {
 		);
 	}
 	else {
-		# save service properties
+		# prepare to save service properties
 		$query = {
 			'package' => {
 				'autorenew'	=> $out{'autorenew'} ? 1 : 0,
@@ -198,54 +216,63 @@ sub savepref {
 				'dnschanging'	=> $out{'dnschanging'} ? 1 : 0
 			}
 		};
-		# send mail if exists new password
-		if ($self->param('login')) {
-			$query->{'login'} = $self->param('login');
-		}
-		$find = { 'login' => $self->session->{'login'} };
-		&dbupdate($self->{'app'}->{'users'}, $find, $query);
+
+		$out{'voice'} = '+'.$countries->{$out{'cc'}}.'.'.$out{'voice'};
+		$out{'fax'} = '+'.$countries->{$out{'cc'}}.'.'.$out{'fax'};
+#		if ($self->param('login')) {
+#			$query->{'login'} = $self->param('login');
+#		}
+#		$find = { 'login' => $self->session->{'login'} };
+#		&dbupdate($self->{'app'}->{'users'}, $find, $query);
 
 		# add task 'modify user' to queue
+		$code = &create_rnd(32);
 		$query = {
-			owner	=> $self->session->{'login'},
-			status	=> 'new',
-			date	=> join('', Time::HiRes::gettimeofday),
-			command	=> 'update_contact',
-			request	=> {
-				chg => {
-					postalInfo => {
-						int => {
-							name => $out{'name'},
-							org => $out{'org'},
-							addr => {
-								street => [ $out{'street'} ],
-								city => $out{'city'},
-								sp => $out{'sp'},
-								pc => $out{'pc'},
-								cc => uc($out{'cc'})
+			'owner'		=> $self->session->{'login'},
+			'id'		=> $out{'id'},
+			'status'	=> 'not_approve',
+			'code'		=> $code,
+			'date'		=> join('', Time::HiRes::gettimeofday),
+			'command'	=> 'update_contact',
+			'request'	=> {
+				'chg' => {
+					'postalInfo'	=> {
+						'loc' => {
+							'name'	=> $out{'name'},
+							'org'	=> $out{'org'},
+							'addr'	=> {
+								'street'=> [ $out{'street'} ],
+								'city'	=> $out{'city'},
+								'sp'	=> $out{'sp'},
+								'pc'	=> $out{'pc'},
+								'cc'	=> uc($out{'cc'})
 							},
 						},
 					},
-					voice => &format_phone($out{'fax'}),
-					fax => &format_phone($out{'fax'}),
-					email => $out{'email'},
-					authInfo => &create_rnd(11)
+					'voice'		=> &format_phone($out{'fax'}),
+					'fax'		=> &format_phone($out{'fax'}),
+					'email' 	=> $out{'email'},
+					'authInfo'	=> &create_rnd(11)
 				}
 			}
 		};
 		&dbinsert($self->{'app'}->{'queue_contacts'}, $query);
 
-		# send email to user
+		# send mail for for user to approve changes
 		foreach (sort {$a cmp $b} keys %out) {
 			if (exists $service{$_}) {
-				if ($out{$_}) { $txt .= $config->{mesg}->{"text_".$_}.": ".$config->{mesg}->{"text_on"}."<br>\n"; }
-				else { $txt .= $config->{mesg}->{"text_".$_}.": ".$config->{mesg}->{"text_off"}."<br>\n"; }
+				if ($out{$_}) { $txt .= $config->{'mesg'}->{"text_".$_}.": ".$config->{'mesg'}->{"text_on"}."<br>\n"; }
+				else { $txt .= $config->{'mesg'}->{"text_".$_}.": ".$config->{'mesg'}->{"text_off"}."<br>\n"; }
 			}
 			else {
-				$text .= $config->{mesg}->{"text_".$_}.": $out{$_}<br>\n";
+				$text .= $config->{'mesg'}->{"text_".$_}.": $out{$_}<br>\n";
 			}
 		}
-		$text = "$text<hr>\n\n$txt";
+		$resp = $config->{'mesg'}->{'follow_link'};
+		$query = $config->{'conf'}->{'url'}."/approve\?login=".$self->session->{'login'}.'&code='.$code;
+		$resp =~ s/\<\%url\%\>/http\:\/\/$query/;
+		$text = "$resp<hr>\n\n$text<hr>\n\n$txt";
+print "$text\n";
 		$resp = &send_mail(
 			'server'=> $config->{'conf'}->{'smtp_server'},
 			'port'	=> $config->{'conf'}->{'smtp_port'},
@@ -253,7 +280,7 @@ sub savepref {
 			'pass'	=> $config->{'conf'}->{'smtp_password'},
 			'from'	=> $config->{'conf'}->{'robot_mail'},
 			'to'	=> $self->session->{'email'},
-			'subj'	=> $config->{mesg}->{'mail_changing_pref'},
+			'subj'	=> $config->{'mesg'}->{'mail_changing_pref'},
 			'text'	=> $text
 		);
 
@@ -261,25 +288,68 @@ sub savepref {
 		$query = {
 			'to'	=> $self->session->{'login'},
 			'from'	=> 'admin',
-			'subj'	=> $config->{mesg}->{'mail_changing_pref'},
+			'subj'	=> $config->{'mesg'}->{'mail_changing_pref'},
 			'text'	=> $text,
 			'status'=> 'new'
 		};
-		&dbinsert($self->{'app'}->{'helpdesk'}, $query);
+#		&dbinsert($self->{'app'}->{'helpdesk'}, $query);
 
 		# ckeck error while sending mail
 		if ($resp) { push @error, "email=".$resp; }
 
 		# set message ' changes saved saved'
 		%out = ();
-		push @error, 'mess='.$config->{mesg}->{'mail_changing_pref'};
+		push @error, 'mess='.$config->{'mesg'}->{'mail_changing_pref'};
 		$self->cookie('error' => join('|', @error),  { domain => $config->{'mesg'}->{'url'}, expires => $config->{'mesg'}->{'url'} } );
 	
 		# print main page
 		$self->res->code(301);
 		$self->redirect_to('/main');
+		return;
 	}
 
+}
+
+sub approve {
+	my ($self, $list, $find, $query);
+	($self) = @_;
+
+	if ($self->param('login') && $self->param('code')) {
+		# read list of changes
+		$find ={
+			'status' => 'not_approve',
+			'owner' => $self->param('login'),
+			'code' => $self->param('code') 
+		};
+		$list = &dblist(
+			'collection'	=> $self->{'app'}->{'queue_contacts'},
+			'query'		=> $find,
+			'fields'	=> { }
+		);
+
+		# approve if item exists
+		if (scalar(@{$list}) == 1) {
+			$query = {
+				'status'=> 'approved',
+				'code'	=> ''
+			};
+			&dbupdate($self->{'app'}->{'queue_contacts'}, $find, $query);
+
+			$self->res->code(301);
+			$self->redirect_to('/approved.html');
+			return;
+		}
+		else {
+			$self->res->code(301);
+			$self->redirect_to('/notapproved.html');
+			return;
+		}
+	}
+	else {
+		$self->res->code(301);
+		$self->redirect_to('/notapproved.html');
+		return;
+	}
 }
 
 1;

@@ -8,8 +8,8 @@
 	</td>
 % }
 	<td width="20%" align="right">Доступно: 
-% my $balanc = sprintf("%.2f", $self->session->{'balance'});
-% if ($balanc) {
+% if ($self->session->{'balance'}) {
+% 	my $balanc = sprintf("%.2f", $self->session->{'balance'});
 <strong><%= $balanc%></strong> грн
 % } else {
 	<strong>0.00</strong> грн 

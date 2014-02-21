@@ -91,6 +91,8 @@ sub startup {
 	$r->route('/restore')	->via('get')	->to('login#restore')		->name('restore');
 	$r->route('/forgot')			->to('login#forgot')		->name('forgot');
 
+	$r->route('/approve')			->to('pref#approve')		->name('approve');
+
 	$r->route('/enter')			->to('login#login')		->name('login');
 	my $rn = $r->bridge('/')		->to('login#check');
 	$rn->route('/main')	->via('get')	->to('login#main')		->name('main');

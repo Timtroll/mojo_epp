@@ -19,15 +19,16 @@
 <div id="line_<%= $count %>">
 <div class="domain">
 <input type="hidden" name="ending_<%= $count %>" id="ending_<%= $count %>" value="<%= $sec %>">
+<input type="hidden" name="endmonth_<%= $count %>" id="endmonth_<%= $count %>" value="<%= $list->{'date'} %>">
 <a href="#modalopen" onclick="javascript:open_frame('/ns?name=<%= $list->{'name'} %>');"><%= $list->{'name'} %></a>
 </div>
-<div class="renew"><a href="/renew"><img src="/img/renew.png" width="20" height="20" /></a></div>
+<div class="renew"><a href="#modalopen" onclick="javascript:open_frame('/renew?domain=<%= $list->{'name'} %>');"><img src="/img/renew.png" width="20" height="20" /></a></div>
 <div class="dns">
 <a href="#modalopen" onclick="javascript:open_frame('/whois?domain=<%= $list->{'name'} %>');">whois</a>
 </div>
 <div class="key"><a href="#modalopen" onclick="javascript:open_frame('/getauth?name=<%= $list->{'name'} %>');"><img src="/img/key.png" width="20" height="20" /></a></div>
 <div class="gant">
-% if ($$current[5] > $dat[5]) {
+% if ($$current[5] == $dat[5]) {
   <div id='chartout' style="border: 1px solid <%= $color %>;width:<%= ($dat[7]*2+$width); %>px;"> <a href="#" class="tooltip">
    <div id='chartin' style="width:<%= $width %>px;"><span>Окончание&nbsp;<strong><%= sec2date($sec, '.'); %></strong></span></div>
 % }
